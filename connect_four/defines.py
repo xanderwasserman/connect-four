@@ -11,6 +11,7 @@ class GamePieceType(Enum):
     NO_PIECE     = ' '
     RED_PIECE    = f'{colorama.Fore.RED}O{colorama.Style.RESET_ALL}'
     YELLOW_PIECE = f'{colorama.Fore.YELLOW}O{colorama.Style.RESET_ALL}'
+    DUMMY_PIECE  = 'T'
     
 class GamePlayerType(Enum):
     HUMAN           = 1
