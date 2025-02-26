@@ -1,5 +1,6 @@
 # test_board.py
-# Example unit tests for board.py
+# Alexander Wasserman
+# 25 Feb 2025
 
 import unittest
 from connect_four.board import Board
