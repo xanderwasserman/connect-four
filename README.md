@@ -110,5 +110,5 @@ If you prefer Docker Compose:
 2. **Within Docker**:
 
     ```bash
-    docker run -it --rm connect-four-image python -m unittest discover tests
+    docker build -t connect-four-image . && docker run -it --rm connect-four-image python -m unittest discover tests
     ```
