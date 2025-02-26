@@ -24,18 +24,45 @@ def show_message(message: str):
     print(message)
     
     
-def show_board(rows: int, cols:int, grid: list[list[GamePieceType]]) -> None:
-        """
-        Print the board to the console. 
-        """
-        _clear_console()
-        for row in range(rows):
-            row_str = '|'
-            for col in range(cols):
-                cell = grid[row][col]
-                row_str += f" {cell.value} |"
-            print(row_str)
-        print("-" * 29)  # separator
+def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
+    """
+    Print the board to the console, then print column numbers below it.
+    """
+    _clear_console()
+    
+    # Print each row of the board
+    for row in range(rows):
+        row_str = '|'
+        for col in range(cols):
+            cell = grid[row][col]
+            row_str += f" {cell.value} |"
+        print(row_str)
+
+    # Print a separator line that matches the board width
+    print("-" * ((4 * cols) + 1))
+
+    # Print column indices (0..cols-1)
+    col_indices_str = ' '.join(str(i).center(3) for i in range(cols))
+    print(col_indices_str)
+    
+
+def show_welcome():
+    """
+    Prints an ASCII art banner to welcome the user to Connect Four.
+    """
+    ascii_art = r"""
+                  W E L C O M E   T O 
+    
+      _____                            _   _  _   
+     / ____|                          | | | || |  
+    | |     ___  _ __  _ __   ___  ___| |_| || |_ 
+    | |    / _ \| '_ \| '_ \ / _ \/ __| __|__   _|
+    | |___| (_) | | | | | | |  __/ (__| |_   | |  
+     \_____\___/|_| |_|_| |_|\___|\___|\__|  |_|  
+
+    """
+    print(ascii_art)
+
     
 def _clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')

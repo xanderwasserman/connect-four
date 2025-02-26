@@ -2,11 +2,12 @@
 # Alexander Wasserman
 # 25 Feb 2025
 
+import time
 from connect_four.defines import GamePieceType, GamePlayerType
 from connect_four.board import Board
 from connect_four.player import Player
 from connect_four.computer import Computer
-from hmi.cli_interface import show_message
+from hmi.cli_interface import show_message, show_welcome
 
 class ConnectFourGame:
     
@@ -24,7 +25,11 @@ class ConnectFourGame:
         '''
         Main game loop: continue until win or draw.
         '''
+        show_welcome()
+        time.sleep(3)
+        
         while True:
+            
             self.board.display_board()
             
             show_message(self.current_player.name + "'s turn.")
@@ -56,3 +61,8 @@ class ConnectFourGame:
                 break
             
             self.switch_player()
+            
+            # If it is the machine player next, wait a bit to simulate it thinking
+            # and to slow down gameplay a bit.
+            if self.current_player == self.player1:
+                time.sleep(2)
