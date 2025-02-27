@@ -54,7 +54,7 @@ You can run these as follows:
 
     - Press `Ctrl + C` to stop the program.
 
-## 3. Running with Docker
+## 3. Running with Docker (preferred method)
 
 1. **Build and start**:
 
