@@ -6,7 +6,7 @@ from flask import Flask
 from hmi.flask_app.routes import init_routes
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="hmi/templates", static_folder="hmi/static")
     init_routes(app)  # Register routes from routes.py
     return app
 
