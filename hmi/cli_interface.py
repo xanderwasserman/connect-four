@@ -35,7 +35,7 @@ def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
         row_str = '|'
         for col in range(cols):
             cell = grid[row][col]
-            row_str += f" {cell.value} |"
+            row_str += f" {_render_piece_cli(cell)} |"
         print(row_str)
 
     # Print a separator line that matches the board width
@@ -62,6 +62,15 @@ def show_welcome():
 
     """
     print(ascii_art)
+
+
+def _render_piece_cli(piece: GamePieceType) -> str:
+    if piece == GamePieceType.YELLOW_PIECE:
+        return f"\033[33m{piece.symbol}\033[0m"  # yellow
+    elif piece == GamePieceType.RED_PIECE:
+        return f"\033[31m{piece.symbol}\033[0m"  # red
+    else:
+        return piece.symbol
 
     
 def _clear_console():
