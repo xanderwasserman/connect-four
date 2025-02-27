@@ -13,8 +13,8 @@ import main_cli  # This imports main_cli.py, which defines the global game and p
 class TestCliGame(unittest.TestCase):
 
     @patch('main_cli.show_message')
-    @patch('connect_four.board.Board.display_board')
-    def test_play_winning_scenario(self, mock_display_board, mock_show_message):
+    @patch('main_cli.show_board')
+    def test_play_winning_scenario(self, mock_show_board, mock_show_message):
         '''
         Test a scenario in which player1 (human) achieves a vertical win.
         We simulate the following move order:

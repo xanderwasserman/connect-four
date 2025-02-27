@@ -90,9 +90,3 @@ class Board:
         
         return count
     
-    
-    def display_board(self) -> None:
-        '''
-        Displays the board to the user
-        '''
-        show_board(self.ROWS, self.COLS, self.grid)

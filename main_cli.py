@@ -4,7 +4,7 @@
 
 import time
 from connect_four.game import ConnectFourGame
-from hmi.cli_interface import show_message, show_welcome
+from hmi.cli_interface import show_board, show_message, show_welcome
 
 game = ConnectFourGame()
 
@@ -15,8 +15,7 @@ def play():
         
         while True:
             
-            game.board.display_board()
-            
+            show_board(game.board.ROWS, game.board.ROWS, game.board.grid)
             show_message(game.current_player.name + "'s turn.")
                 
             col_choice = game.current_player.move(grid=game.board.grid, cols=game.board.COLS)
@@ -36,7 +35,7 @@ def play():
             
             #check for a winner
             if game.board.check_for_winner(row, col, game.win_count):
-                game.board.display_board()
+                show_board(game.board.ROWS, game.board.ROWS, game.board.grid)
                 show_message(game.current_player.name + " wins!")
                 break
             
