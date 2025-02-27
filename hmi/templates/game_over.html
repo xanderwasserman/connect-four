@@ -49,14 +49,31 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      background-color: #f44336;
       border: none;
       color: #fff;
       border-radius: 5px;
       transition: background 0.3s;
     }
-    .restart button:hover {
+    /* Green button: user wins */
+    .restart button.green {
+      background-color: #4CAF50;
+    }
+    .restart button.green:hover {
+      background-color: #45a049;
+    }
+    /* Red button: user loses */
+    .restart button.red {
+      background-color: #f44336;
+    }
+    .restart button.red:hover {
       background-color: #e53935;
+    }
+    /* Neutral button: draw */
+    .restart button.neutral {
+      background-color: #2196F3;
+    }
+    .restart button.neutral:hover {
+      background-color: #1E88E5;
     }
   </style>
 </head>
@@ -90,10 +107,19 @@
     {% endfor %}
   </div>
   
-  <div class="restart">
+  <<div class="restart">
     <form action="{{ url_for('restart') }}" method="get">
-      <button type="submit">Start New Game</button>
+      {% if winner %}
+        {% if user_won %}
+          <button type="submit" class="green">Start New Game</button>
+        {% else %}
+          <button type="submit" class="red">Start New Game</button>
+        {% endif %}
+      {% else %}
+        <button type="submit" class="neutral">Start New Game</button>
+      {% endif %}
     </form>
   </div>
+  
 </body>
 </html>
