@@ -1,6 +1,6 @@
 # connect-four
 
-A simple Connect Four game, written in Python. A demo can be found on connect4.alexanderwasserman.co.za 
+A simple Connect Four game, written in Python. A demo can be found on [connect4.alexanderwasserman.co.za](https://connect4.alexanderwasserman.co.za)
 
 There are two versions which can be run:
 - A simple CLI User Interface
