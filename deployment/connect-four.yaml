@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-four
+  namespace: pet-projects
+  labels:
+    app: connect-four
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: connect-four
+  template:
+    metadata:
+      labels:
+        app: connect-four
+    spec:
+      containers:
+      - name: connect-four
+        image: registry.alexanderwasserman.co.za/connect-four:v1.0.2
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        resources:
+          requests:
+            memory: "50Mi"
+            cpu: "500m"
+          limits:
+            memory: "100Mi"
+            cpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connect-four-service
+  namespace: pet-projects
+spec:
+  selector:
+    app: connect-four
+  ports:
+  - name: http
+    protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: connect-four-ingress
+  namespace: pet-projects
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`connect4.alexanderwasserman.co.za`)
+    kind: Rule
+    middlewares:
+      - name: https-redirect
+    services:
+    - name: connect-four-service
+      port: 5000
+  tls:
+    secretName: connect-four-tls
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: connect-four-http-ingress
+  namespace: pet-projects
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`connect4.alexanderwasserman.co.za`)
+    kind: Rule
+    middlewares:
+      - name: https-redirect
+    services:
+    - name: connect-four-service
+      port: 5000
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: connect-four-tls
+  namespace: pet-projects
+spec:
+  secretName: connect-four-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - connect4.alexanderwasserman.co.za
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-redirect
+  namespace: pet-projects
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
