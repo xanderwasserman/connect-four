@@ -86,7 +86,7 @@ def init_routes(app):
                 comp_row, comp_col_placed = comp_result
                 
                 # Check for winner/draw after computer's move
-                if game_instance.board.check_for_winner(row, col_placed, game_instance.win_count):
+                if game_instance.board.check_for_winner(comp_row, comp_col_placed, game_instance.win_count):
                     # Determine if the current player (the one who just moved) is the user.
                     user_won = (game_instance.current_player.type == GamePlayerType.HUMAN)
                     return render_template("game_over.html",
