@@ -10,6 +10,9 @@ from connect_four.game import ConnectFourGame
 from connect_four.player import Player
 import main_cli  # This imports main_cli.py, which defines the global game and play()
 
+def _dummy_move(grid, cols):
+    return 0
+  
 class TestCliGame(unittest.TestCase):
 
     @patch('main_cli.show_message')
@@ -31,7 +34,7 @@ class TestCliGame(unittest.TestCase):
         to have YELLOW_PIECE in column 0 rows 5, 4, 3, 2.
         '''
         # Reinitialize the global game for a fresh start
-        main_cli.game = ConnectFourGame()
+        main_cli.game = ConnectFourGame(player_move_func=_dummy_move)
         game = main_cli.game  # alias
 
         # Patch the move() methods so that we control which column is chosen.

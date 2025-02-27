@@ -6,7 +6,14 @@ from flask import render_template, request, redirect, url_for
 from connect_four.defines import GamePieceType, GamePlayerType
 from connect_four.game import ConnectFourGame
 
-game_instance = ConnectFourGame()
+# Define a dummy move function for the human player.
+# In a web app, the human move is provided by the route parameter,
+# so this function never really gets called.
+def _dummy_human_move(grid, cols):
+    return None
+
+# Create the game instance
+game_instance = ConnectFourGame(player_move_func=_dummy_human_move)
 
 def init_routes(app):
 
@@ -99,5 +106,5 @@ def init_routes(app):
         # Re-init the game
         global game_instance
         
-        game_instance = ConnectFourGame()
+        game_instance = ConnectFourGame(player_move_func=_dummy_human_move)
         return redirect(url_for('home'))

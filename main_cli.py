@@ -3,10 +3,11 @@
 # 25 Feb 2025
 
 import time
+from connect_four.defines import GamePlayerType
 from connect_four.game import ConnectFourGame
-from hmi.cli_interface import show_board, show_message, show_welcome
+from hmi.cli_interface import show_board, show_message, show_welcome, get_player_move
 
-game = ConnectFourGame()
+game = ConnectFourGame(player_move_func=get_player_move)
 
 def play():
         '''

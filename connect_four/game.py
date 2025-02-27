@@ -11,9 +11,9 @@ from hmi.cli_interface import show_message
 
 class ConnectFourGame:
     
-    def __init__(self):
+    def __init__(self, player_move_func):
         self.board = Board()
-        self.player1 = Player(player_piece_type=GamePieceType.YELLOW_PIECE)
+        self.player1 = Player(player_piece_type=GamePieceType.YELLOW_PIECE, move_func=player_move_func)
         self.player2 = Computer(computer_piece_type=GamePieceType.RED_PIECE)
         self.current_player = self.player1
         self.win_count = 4

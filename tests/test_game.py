@@ -10,6 +10,9 @@ from connect_four.board import Board
 from connect_four.player import Player
 from connect_four.computer import Computer
 
+def _dummy_move(grid, cols):
+    return 0
+
 class TestConnectFourGame(unittest.TestCase):
     
     def test_init(self):
@@ -21,7 +24,7 @@ class TestConnectFourGame(unittest.TestCase):
         - Current player is player1
         - Win count is 4
         '''
-        game = ConnectFourGame()
+        game = ConnectFourGame(player_move_func=_dummy_move)
         self.assertIsInstance(game.board, Board, "Game should initialize with a Board instance.")
         self.assertIsInstance(game.player1, Player, "player1 should be a Player.")
         self.assertIsInstance(game.player2, Computer, "player2 should be a Computer.")
@@ -35,7 +38,7 @@ class TestConnectFourGame(unittest.TestCase):
         Test that switch_player toggles the current player
         between player1 and player2.
         '''
-        game = ConnectFourGame()
+        game = ConnectFourGame(player_move_func=_dummy_move)
         self.assertEqual(game.current_player, game.player1)
         
         game.switch_player()

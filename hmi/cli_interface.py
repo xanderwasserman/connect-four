@@ -46,6 +46,20 @@ def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
     print(col_indices_str)
     
 
+def get_player_move(grid: list[list[GamePieceType]], cols: int) -> int:
+    '''
+    Gets an input from the Player to indicate which column the game piece
+    should be placed in. Additionally, it checks whether the chosen column is full.
+    '''
+    while True:
+        col = get_column_input(cols)
+        # Check if the top of the column is already occupied.
+        if grid[0][col] != GamePieceType.NO_PIECE:
+            show_message("Column is full. Please choose a different column.")
+        else:
+            return col
+            
+
 def show_welcome():
     """
     Prints an ASCII art banner to welcome the user to Connect Four.
