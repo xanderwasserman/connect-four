@@ -35,7 +35,7 @@ def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
         row_str = '|'
         for col in range(cols):
             cell = grid[row][col]
-            row_str += f" {cell.value} |"
+            row_str += f" {_render_piece_cli(cell)} |"
         print(row_str)
 
     # Print a separator line that matches the board width
@@ -45,6 +45,20 @@ def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
     col_indices_str = ' '.join(str(i).center(3) for i in range(cols))
     print(col_indices_str)
     
+
+def get_player_move(grid: list[list[GamePieceType]], cols: int) -> int:
+    '''
+    Gets an input from the Player to indicate which column the game piece
+    should be placed in. Additionally, it checks whether the chosen column is full.
+    '''
+    while True:
+        col = get_column_input(cols)
+        # Check if the top of the column is already occupied.
+        if grid[0][col] != GamePieceType.NO_PIECE:
+            show_message("Column is full. Please choose a different column.")
+        else:
+            return col
+            
 
 def show_welcome():
     """
@@ -62,6 +76,15 @@ def show_welcome():
 
     """
     print(ascii_art)
+
+
+def _render_piece_cli(piece: GamePieceType) -> str:
+    if piece == GamePieceType.YELLOW_PIECE:
+        return f"\033[33m{piece.symbol}\033[0m"  # yellow
+    elif piece == GamePieceType.RED_PIECE:
+        return f"\033[31m{piece.symbol}\033[0m"  # red
+    else:
+        return piece.symbol
 
     
 def _clear_console():

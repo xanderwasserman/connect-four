@@ -15,8 +15,11 @@ class TestPlayer(unittest.TestCase):
         Test that a Player is instantiated with the correct default name,
         piece type, and GamePlayerType.HUMAN.
         '''
+        def _dummy_move(grid, cols):
+            return 0
+        
         # Create a Player with default name, using a known piece type
-        p = Player(player_piece_type=GamePieceType.YELLOW_PIECE)
+        p = Player(player_piece_type=GamePieceType.YELLOW_PIECE, move_func=_dummy_move)
         self.assertEqual(p.piece_type, GamePieceType.YELLOW_PIECE, "Incorrect piece type.")
         self.assertEqual(p.name, 'Organic Player', "Default name should be 'Organic Player'.")
         self.assertEqual(p.type, GamePlayerType.HUMAN, "Player type should be HUMAN.")
@@ -25,12 +28,15 @@ class TestPlayer(unittest.TestCase):
         '''
         Test that a Player can be instantiated with a custom name.
         '''
-        p = Player(player_piece_type=GamePieceType.RED_PIECE, player_name='Alice')
+        def _dummy_move(grid, cols):
+            return 0
+
+        p = Player(player_piece_type=GamePieceType.RED_PIECE, move_func=_dummy_move, player_name='Alice')
         self.assertEqual(p.name, 'Alice', "Custom player name not set correctly.")
         self.assertEqual(p.piece_type, GamePieceType.RED_PIECE)
 
-    @patch('connect_four.player.show_message')
-    @patch('connect_four.player.get_column_input')
+    @patch('hmi.cli_interface.show_message')
+    @patch('hmi.cli_interface.get_column_input')
     def test_move_valid_column_first_try(self, mock_get_col_input, mock_show_message):
         '''
         If the top cell of the chosen column is free, the method should return that column immediately
@@ -43,14 +49,16 @@ class TestPlayer(unittest.TestCase):
         grid = [[GamePieceType.NO_PIECE for _ in range(7)] for _ in range(6)]
         cols = 7
 
-        p = Player(GamePieceType.YELLOW_PIECE, 'Test Player')
+        from hmi.cli_interface import get_player_move
+        # Create the Player with the injected move function.
+        p = Player(player_piece_type=GamePieceType.YELLOW_PIECE, player_name='Test Player', move_func=get_player_move)
         chosen_column = p.move(grid, cols)
 
         self.assertEqual(chosen_column, 3, "Should return the column chosen by user.")
         mock_show_message.assert_not_called()  # No warning needed
 
-    @patch('connect_four.player.show_message')
-    @patch('connect_four.player.get_column_input')
+    @patch('hmi.cli_interface.show_message')
+    @patch('hmi.cli_interface.get_column_input')
     def test_move_full_column_then_valid(self, mock_get_col_input, mock_show_message):
         '''
         If the player first selects a full column, it should show a message 
@@ -67,7 +75,10 @@ class TestPlayer(unittest.TestCase):
         grid[0][2] = GamePieceType.RED_PIECE
         cols = 7
 
-        p = Player(GamePieceType.YELLOW_PIECE, 'Test Player')
+        # Import the CLI-specific move function
+        from hmi.cli_interface import get_player_move
+        # Create the Player with the injected move function.
+        p = Player(player_piece_type=GamePieceType.YELLOW_PIECE, player_name='Test Player', move_func=get_player_move)
         chosen_column = p.move(grid, cols)
 
         # The first chosen column was 2, which is full at row=0 -> show_message gets called

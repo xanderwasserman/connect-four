@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connect Four - Game Over</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .column-numbers {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+    .column-numbers .col-number {
+      width: 60px;
+      font-size: 14px;
+      text-align: center;
+      color: #555;
+    }
+    .board {
+      display: inline-block;
+      margin: 20px auto;
+      background: #fff;
+      border: 3px solid #333;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    .board-row {
+      display: flex;
+    }
+    .cell {
+      width: 60px;
+      height: 60px;
+      border: 1px solid #666;
+      line-height: 60px;
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .restart {
+      margin-top: 20px;
+    }
+    .restart button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    /* Green button: user wins */
+    .restart button.green {
+      background-color: #4CAF50;
+    }
+    .restart button.green:hover {
+      background-color: #45a049;
+    }
+    /* Red button: user loses */
+    .restart button.red {
+      background-color: #f44336;
+    }
+    .restart button.red:hover {
+      background-color: #e53935;
+    }
+    /* Neutral button: draw */
+    .restart button.neutral {
+      background-color: #2196F3;
+    }
+    .restart button.neutral:hover {
+      background-color: #1E88E5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Game Over</h1>
+  {% if winner %}
+    <h2>{{ winner }} wins!</h2>
+  {% else %}
+    <h2>It's a draw!</h2>
+  {% endif %}
+
+  <p>Final Board State:</p>
+  
+  <!-- Column numbers above the board -->
+  <div class="column-numbers">
+    {% for col_index in range(cols) %}
+      <div class="col-number">{{ col_index + 1 }}</div>
+    {% endfor %}
+  </div>
+  
+  <div class="board">
+    {% for row_index in range(rows) %}
+      <div class="board-row">
+        {% for col_index in range(cols) %}
+          {% set piece = board[row_index][col_index] %}
+          <div class="cell" style="color: {{ piece.default_color }};">
+            {{ piece.symbol }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="restart">
+    <form action="{{ url_for('restart') }}" method="get">
+      {% if winner %}
+        {% if user_won %}
+          <button type="submit" class="green">Start New Game</button>
+        {% else %}
+          <button type="submit" class="red">Start New Game</button>
+        {% endif %}
+      {% else %}
+        <button type="submit" class="neutral">Start New Game</button>
+      {% endif %}
+    </form>
+  </div>
+  
+</body>
+</html>

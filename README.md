@@ -1,6 +1,10 @@
 # connect-four
 
-A simple CLI-based Connect Four game, written in Python. You can run it:
+A simple Connect Four game, written in Python. There are two versions which can be run:
+- A simple CLI User Interface
+- A basic web application
+
+You can run these as follows:
 1. **Directly on your machine** (using a virtual environment).
 2. **Via Docker** (build and run the container).
 3. **Via Docker Compose**.
@@ -21,11 +25,15 @@ A simple CLI-based Connect Four game, written in Python. You can run it:
 
 2. **Create and activate a virtual environment**:
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Linux / Mac
-   # or, on Windows: venv\Scripts\activate
-   ```
+    - Linux/MacOS:
+        ```bash
+        python -m venv venv
+        source venv/bin/activate   # On Linux / Mac
+        ```
+    - Windows: 
+        ```bash
+        venv\Scripts\activate
+        ```
 
 3. **Install dependencies**:
 
@@ -35,68 +43,60 @@ A simple CLI-based Connect Four game, written in Python. You can run it:
     ```
 4. **Run the game**:
 
-    ```bash
-    python main.py
-    ```
+    - CLI Version:
+        ```bash
+        python main_cli.py
+        ```
+    - Web App Version:
+        ```bash
+        python main_web.py
+        ```
 
-    You should see something like this:
-    ```bash
-    |   |   |   |   |   |   |   |
-    |   |   |   |   |   |   |   |
-    |   |   |   |   |   |   |   |
-    |   |   |   |   |   |   |   |
-    |   |   |   |   |   |   |   |
-    |   |   |   |   |   |   |   |
-    -----------------------------
-    Organic Player's turn.
-    Enter a column (0-6): 
-    ```
-
-    - Press `Ctrl + C` to stop.
+    - Press `Ctrl + C` to stop the program.
 
 ## 3. Running with Docker
 
 1. **Build and start**:
 
-    ```bash
-    docker build -t connect-four-image .
-    ```
+    - CLI Version:
+        ```bash
+        docker build -t connect-four-cli -f Dockerfile.cli .
+        ```
+
+    - Web Version:
+        ```bash
+        docker build -t connect-four-web -f Dockerfile.web .
+        ```
 
     This will install dependencies and copy the code into the container.
 
-2. **Run the container interactively**:
+2. **Run the container**:
 
-    ```bash
-    docker run -it --rm connect-four-image
-    ```
+    - CLI Version:
+        ```bash
+        docker run -it --rm connect-four-cli
+        ```
+        - `-it` gives you an interactive shell so you can type your moves.
+        - `--rm` removes the container after you exit.
 
-    - `-it` gives you an interactive shell so you can type your moves.
-    - `--rm` removes the container after you exit.
+        You will see CLI prompts in the terminal. Enter the column numbers to play.
 
-    You will see CLI prompts in the terminal. Enter the column numbers to play.
+    - Web Version:
+        ```bash
+        docker run -d --rm connect-four-web
+        ```
+        - `-d` detaches your terminal from the container shell for it to run in the background. Otherwise use `-it` to give you an interactive shell so you can easily exit the program.
+        - `--rm` removes the container after you exit.
 
-## 4. ~~Running with Docker Compose~~
-
-If you prefer Docker Compose:
-
-1. **Build and start**:
-
-    ```bash
-    docker compose up --build
-    ```
-
-    If this gives an error, you might have an older version of Docker Compose installed. Try using:
-    ```bash
-    docker-compose up --build
-    ```
-
-    - This builds the image (from the included Dockerfile) and starts a container named `connect-four-container`.
-    - `tty: true` and `stdin_open: true` in `docker-compose.yaml` ensure you can interact with the game.
+        Navigate to http://localhost:5000 on your web browser to access the web interface.
 
 2. **Stop the container**: 
 
-    - If you used `docker-compose up`, press `Ctrl + C` to stop.
-
+    - If you used an interactive terminal (`-it`) then you can simply stop by pressing `Ctrl + C` on your keyboard.
+    - If you ran the container detached (`-d`) then you can use the `docker ps` command to list all running docker containers. Find the `CONTAINER ID` if the Image called `connect-four-web` and copy it. Then enter the following in your terminal, replacing `<container-id>` with the ID that you just copied:
+        ```bash
+        docker stop <container-id>
+        ```
 
 ## 5. Running Tests
 
@@ -109,6 +109,10 @@ If you prefer Docker Compose:
 
 2. **Within Docker**:
 
+    You can use either of the following two commands:
     ```bash
-    docker build -t connect-four-image . && docker run -it --rm connect-four-image python -m unittest discover tests
+    docker build -t connect-four-cli -f Dockerfile.cli . && docker run -it --rm connect-four-cli python -m unittest discover tests
+    ```
+    ```bash
+    docker build -t connect-four-web -f Dockerfile.web . && docker run -it --rm connect-four-web python -m unittest discover tests
     ```

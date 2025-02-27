@@ -1,18 +1,21 @@
 # defines.py
 # Alexander Wasserman
 # 25 Feb 2025
-from enum import Enum
-import colorama
+from enum import Enum, unique
 
-# Initialize colorama (needed on Windows)
-colorama.init()
-
+@unique
 class GamePieceType(Enum):
-    NO_PIECE     = ' '
-    RED_PIECE    = f'{colorama.Fore.RED}O{colorama.Style.RESET_ALL}'
-    YELLOW_PIECE = f'{colorama.Fore.YELLOW}O{colorama.Style.RESET_ALL}'
-    DUMMY_PIECE  = 'T'
+    NO_PIECE     = (' ', 'white')   # (display symbol, default color)
+    RED_PIECE    = ('O', 'red')
+    YELLOW_PIECE = ('O', 'gold')
+    DUMMY_PIECE  = ('D', 'white')
+
+    def __init__(self, symbol, default_color):
+        self.symbol = symbol
+        self.default_color = default_color
     
 class GamePlayerType(Enum):
     HUMAN           = 1
     MACHINE         = 2
+    
+

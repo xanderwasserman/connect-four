@@ -168,7 +168,3 @@ class TestBoard(unittest.TestCase):
         self.assertFalse(self.board.check_for_winner(row, col, 0))
         self.assertFalse(self.board.check_for_winner(row, col, -1))
         self.assertFalse(self.board.check_for_winner(row, col, max(self.board.ROWS, self.board.COLS) + 1))
-
-    def test_display_board(self):
-        # Can't really test this easily, so skipping for now.
-        pass
