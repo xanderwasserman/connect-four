@@ -58,8 +58,8 @@ class Board:
         directions = [
             [ (0, -1),    (0, 1) ], # horizontal column (left and right)
             [ (1, 0),    (-1, 0) ], # vertical row (up and down)
-            [ (1, -1),   (-1, 1) ], # diagonal (top left to bottom right)
-            [ (-1, 1),   (1, -1) ]  # diagonal (top right to bottom left)
+            [(1, 1),    (-1, -1) ],      # diagonal: top-left to bottom-right
+            [(1, -1),   (-1, 1)]       # diagonal: top-right to bottom-left
         ]
         
         for direction in directions:
