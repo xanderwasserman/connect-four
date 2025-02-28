@@ -16,7 +16,7 @@ def play():
         
         while True:
             
-            show_board(game.board.ROWS, game.board.ROWS, game.board.grid)
+            show_board(game.board.ROWS, game.board.COLS, game.board.grid)
             show_message(game.current_player.name + "'s turn.")
                 
             col_choice = game.current_player.move(grid=game.board.grid, cols=game.board.COLS)

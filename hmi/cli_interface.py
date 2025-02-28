@@ -41,8 +41,8 @@ def show_board(rows: int, cols: int, grid: list[list[GamePieceType]]) -> None:
     # Print a separator line that matches the board width
     print("-" * ((4 * cols) + 1))
 
-    # Print column indices (0..cols-1)
-    col_indices_str = ' '.join(str(i).center(3) for i in range(cols))
+    # Print column indices (0..cols-1) with a leading pipe and spacing to match the board
+    col_indices_str = "|" + "".join(str(i).center(4) for i in range(cols))
     print(col_indices_str)
     
 
