@@ -1,4 +1,4 @@
-# Connect Four - A Wasserman
+# Connect Four
 
 This documentation aims to give a better understanding of design choices, the current capabilities of the project, and the roadmap for future improvements.
 
